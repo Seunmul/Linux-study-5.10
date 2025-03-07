@@ -916,8 +916,8 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
 	boot_cpu_init();
 	page_address_init();
 	pr_notice("%s", linux_banner);
-	early_security_init();
-	setup_arch(&command_line);
+	early_security_init();    
+	setup_arch(&command_line); //* RTOSLAB, 2025.03.07
 	setup_boot_config(command_line);
 	setup_command_line(command_line);
 	setup_nr_cpu_ids();

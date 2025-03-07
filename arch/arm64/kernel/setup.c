@@ -308,6 +308,11 @@ u64 cpu_logical_map(int cpu)
 	return __cpu_logical_map[cpu];
 }
 
+/*
+ * RTOSLAB, 2025.03.07: 아키텍처별로 커널이 하드웨어와 상호작용 할 수 있는 기반 마련
+ * - CPU가 초기화된 후에 C언어 레벨에서 수행되는 초기화 함수
+ * - head.s에서 저장된 ACPI 테이블을 파싱하고, 메모리 맵핑을 초기화
+ */
 void __init __no_sanitize_address setup_arch(char **cmdline_p)
 {
 	init_mm.start_code = (unsigned long) _text;
@@ -328,8 +333,8 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
  * - early : memory mapping등도 안된 상황.
  * - late : 나중에 해도 되는 작업들
  */
-	early_fixmap_init();
-	early_ioremap_init();
+	early_fixmap_init();  //* RTOSLAB, 2025.03.07 초기 고정 매핑(Fixmap) 설정.
+	early_ioremap_init(); //* RTOSLAB, 2025.03.07 I/O 메모리 매핑을 설정하여 장치 접근 가능하게 만듦.
 
 	setup_machine_fdt(__fdt_pointer);
 /*

@@ -73,7 +73,7 @@ static inline void local_daif_restore(unsigned long flags)
 
 	WARN_ON(system_has_prio_mask_debugging() &&
 		!(read_sysreg(daif) & PSR_I_BIT));
-
+  // 즉 irq가 활성화 되어있을 시
 	if (!irq_disabled) {
 		trace_hardirqs_on();
 
@@ -81,6 +81,7 @@ static inline void local_daif_restore(unsigned long flags)
 			gic_write_pmr(GIC_PRIO_IRQON);
 			pmr_sync();
 		}
+		// irq가 비활성화 되어있을 시
 	} else if (system_uses_irq_prio_masking()) {
 		u64 pmr;
 

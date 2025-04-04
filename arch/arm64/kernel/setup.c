@@ -355,6 +355,7 @@ void __init __no_sanitize_address setup_arch(char **cmdline_p)
 	 * cpufeature code and early parameters.
 	 */
 	jump_label_init();
+	// setup_arch 이후에 setup_command_line 호출이 있음, 그 전에 early parsing 과정으로 보임
 	parse_early_param();
 
 	/*

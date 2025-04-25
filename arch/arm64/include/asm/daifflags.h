@@ -78,13 +78,14 @@ static inline void local_daif_restore(unsigned long flags)
 		trace_hardirqs_on();
 
 		if (system_uses_irq_prio_masking()) {
+			// 이대로라면 0xe0 = 224 ~ 255만 masking, 대부분을 허용한다는 말
 			gic_write_pmr(GIC_PRIO_IRQON);
 			pmr_sync();
 		}
-		// irq가 비활성화 되어있을 시
+		// irq가 비활성화 되어있을 시 = 우리가 보려는 상황
 	} else if (system_uses_irq_prio_masking()) {
 		u64 pmr;
-
+		// A = SError가 Mask가 아닐 때 = 허용되어있을 때 = 우리가 보려는 상황
 		if (!(flags & PSR_A_BIT)) {
 			/*
 			 * If interrupts are disabled but we can take
